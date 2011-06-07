@@ -60,7 +60,6 @@ architecture Behavioral of mem_block is
                 file ramfile : text is in ram_file_name;
                 variable line_read : line;
                 variable ram_to_return : TRam;
-
         begin
                 FOR i in TRam'range loop
                         readline(ramfile, line_read);
@@ -72,7 +71,11 @@ architecture Behavioral of mem_block is
         signal Ram : TRam := init_bram("bram1.dat");
 
 begin 
-        process (clk_i, rst_i, req_i)
+        process (
+                clk_i, 
+                rst_i, 
+                req_i
+        )
         begin 
                 if (rst_i = '1') then
                         data_o <='0';
@@ -82,6 +85,7 @@ begin
                           elsif req_i = '1' then
                                 data_o <= Ram (conv_integer(addr_i));
                           else data_o <= '0';
+                          end if;
                 end if;
         end process;
 end Behavioral;
@@ -123,7 +127,21 @@ entity filter_block is
 end filter_block;
 
 architecture filter of filter_block is
+        process ( 
+                clk_i, 
+                rst_i, 
+                impulse_i
+        )
+        begin
+                if (rst_i = '1') then
+                        data_o <='0';
+                        elsif clk_i'event and clk_i = '1' then
+                          if impulse_i ='1' then none end if;
+                          if impulse_i='1' then none end if;
+                          if impulse_i='1' then none end if;
+                          if impulse = '1' then impulse_o <= impulse_i; end if; 
 
+        end process;
         end filter;
         
 
@@ -134,7 +152,7 @@ architecture filter of filter_block is
 -- 3.
 
 entity traffic_light is
-        generic( light_delay:integer:=1;--
+        generic( light_delay:integer:=1;
                ); 
         port (
                 clk_i : in std_logic -- clock input
@@ -146,6 +164,11 @@ entity traffic_light is
 end traffic_light;
 
 architecture traffic of traffic_loght is
+        process (clk_i, rst_i, light_delay)
+        begin
+
+        end process;
+
 end traffic;
 
 
